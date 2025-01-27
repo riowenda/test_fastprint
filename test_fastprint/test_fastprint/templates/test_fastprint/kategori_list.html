@@ -1,0 +1,23 @@
+{% extends 'test_fastprint/base.html' %}
+{% block content %}
+<h2>Daftar Kategori</h2>
+<a class="btn btn-success" href="{% url 'kategori_add' %}">Tambah Kategori</a>
+<table class="table">
+    <tr>
+        <th>Nama</th>
+        <th>Aksi</th>
+    </tr>
+    {% for kategori in kategoris %}
+    <tr>
+        <td>{{ kategori.nama_kategori }}</td>
+        <td>
+            <a class="btn btn-primary" href="{% url 'kategori_edit' kategori.pk %}">Edit</a> 
+            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" 
+            data-bs-target="#deleteModal" data-url="{% url 'delete_kategori' kategori.id %}">
+                    Hapus
+            </button>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
