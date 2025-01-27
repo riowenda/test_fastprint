@@ -1,0 +1,21 @@
+{% extends 'test_fastprint/base.html' %}
+{% block content %}
+<h2>{{ view.object|default:'Tambah Status' }}</h2>
+<form method="post" class="mt-3" >
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-2">
+            <label for="id_nama_status" class="form-label">Nama Status</label>
+        </div>
+        <div class="col-6">
+            {{ form.nama_status }}
+        </div>
+        {% if form.nama_status.errors %}
+        <div class="text-danger">
+            {{ form.nama_status.errors }}
+        </div>
+        {% endif %}
+    </div>
+    <button class="btn btn-primary mt-2" type="submit">Simpan</button>
+</form>
+{% endblock %}

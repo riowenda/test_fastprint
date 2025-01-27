@@ -1,0 +1,23 @@
+{% extends 'test_fastprint/base.html' %}
+{% block content %}
+<h2>Daftar Kategori</h2>
+<a class="btn btn-success" href="{% url 'status_add' %}">Tambah Kategori</a>
+<table class="table">
+    <tr>
+        <th>Nama</th>
+        <th>Aksi</th>
+    </tr>
+    {% for status in statuses %}
+    <tr>
+        <td>{{ status.nama_status }}</td>
+        <td>
+            <a class="btn btn-primary" href="{% url 'status_edit' status.pk %}">Edit</a> 
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" 
+            data-bs-target="#deleteModal" data-url="{% url 'delete_status' status.id %}">
+                    Hapus
+            </button>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
