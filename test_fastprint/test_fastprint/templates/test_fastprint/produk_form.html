@@ -1,0 +1,34 @@
+{% extends 'test_fastprint/base.html' %}
+
+{% block title %}Form Produk{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h5>{{ form.instance.pk|default:"Tambah Produk" }}</h5>
+    </div>
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="id_nama_produk" class="form-label">Nama Produk</label>
+                {{ form.nama_produk }}
+            </div>
+            <div class="mb-3">
+                <label for="id_kategori" class="form-label">Kategori</label>
+                {{ form.kategori }}
+            </div>
+            <div class="mb-3">
+                <label for="id_harga" class="form-label">Harga</label>
+                {{ form.harga }}
+            </div>
+            <div class="mb-3">
+                <label for="id_status" class="form-label">Status</label>
+                {{ form.status }}
+            </div>
+            <button type="submit" class="btn btn-primary">Simpan</button>
+            <a href="{% url 'produk_list' %}" class="btn btn-secondary">Batal</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

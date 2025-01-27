@@ -1,0 +1,67 @@
+{% extends 'test_fastprint/base.html' %}
+
+{% block title %}Daftar Produk{% endblock %}
+
+{% block content %}
+<h2>Daftar Produk</h2>
+<a class="btn btn-success mb-3" href="{% url 'produk_add' %}">Tambah Produk</a>
+
+<form method="get" class="row g-3 mb-4">
+    <div class="col-md-3">
+        <label for="nama_produk" class="form-label">Nama Produk</label>
+        <input type="text" name="nama_produk" id="nama_produk" class="form-control" 
+               value="{{ request.GET.nama_produk|default_if_none:'' }}" placeholder="Filter Nama Produk">
+    </div>
+    <div class="col-md-3">
+        <label for="kategori" class="form-label">Kategori</label>
+        <input type="text" name="kategori" id="kategori" class="form-control" 
+               value="{{ request.GET.kategori|default_if_none:'' }}" placeholder="Filter Kategori">
+    </div>
+    <div class="col-md-3">
+        <label for="status" class="form-label">Status</label>
+        <input type="text" name="status" id="status" class="form-control" 
+               value="{{ request.GET.status|default_if_none:'' }}" placeholder="Filter Status">
+    </div>
+    <div class="col-md-3 align-self-end">
+        <button type="submit" class="btn btn-primary">Filter</button>
+        <a href="{% url 'produk_list' %}" class="btn btn-secondary">Reset</a>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID Produk</th>
+            <th>Nama Produk</th>
+            <th>Harga</th>
+            <th>Kategori</th>
+            <th>Status</th>
+            <th>Aksi</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for produk in produks %}
+        <tr>
+            <td>{{ produk.id }}</td>
+            <td>{{ produk.nama_produk }}</td>
+            <td>{{ produk.harga }}</td>
+            <td>{{ produk.kategori.nama_kategori }}</td>
+            <td>{{ produk.status.nama_status }}</td>
+            <td>
+                <a class="btn btn-primary btn-sm" href="{% url 'produk_edit' produk.pk %}">Edit</a> 
+                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" 
+                data-bs-target="#deleteModal" data-url="{% url 'delete_produk' produk.id %}">
+                        Hapus
+                </button>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6" class="text-center">Tidak ada data yang ditemukan</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+{% endblock %}
