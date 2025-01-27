@@ -1,0 +1,68 @@
+{% extends 'test_fastprint/base.html' %}
+
+{% block title %}
+Halaman Utama
+{% endblock %}
+
+{% block content %}
+<div class="jumbotron text-center">
+    <h1>Selamat Datang di Aplikasi Django</h1>
+    <p class="lead">Nama : Rio Wenda Yulianto.</p>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="button" class="btn btn-primary" onclick="updateData()">Perbarui Data</button>
+    </form>
+</div>
+
+<script>
+    async function updateData() {
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value; // CSRF token dari template Django
+
+    const formdata = new FormData();
+    formdata.append("username", "tesprogrammer270125C19");
+    formdata.append("password", "0a4f9bce7ae44d5ef36653e7b0b3f75c");
+
+    try {
+        const response = await fetch('/proxy-api/', {
+            method: "POST",
+            credentials: "include", // Sertakan cookies secara otomatis
+            headers: {
+                "X-CSRFToken": csrfToken, // Sertakan CSRF token di header
+            },
+            body: formdata,
+        });
+
+        if (!response.ok) {
+            console.error("Respons proxy error:", await response.text());
+            throw new Error(`Error: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log("Data berhasil diambil:", data);
+
+        // Kirim data ke endpoint Django lainnya jika diperlukan
+        const saveResponse = await fetch('/save-data/', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": csrfToken, // Tambahkan CSRF token di sini juga
+            },
+            body: JSON.stringify(data),
+        });
+
+        if (saveResponse.ok) {
+            alert("Data berhasil diperbarui dan disimpan!");
+        } else {
+            alert("Gagal menyimpan data.");
+        }
+    } catch (error) {
+        console.error("Terjadi kesalahan:", error);
+        alert("Gagal memperbarui data.");
+    }
+}
+
+
+
+</script>
+
+{% endblock %}
