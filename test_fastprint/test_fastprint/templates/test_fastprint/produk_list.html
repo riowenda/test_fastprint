@@ -14,25 +14,13 @@
     </div>
     <div class="col-md-3">
         <label for="kategori" class="form-label">Kategori</label>
-        <select name="kategori" id="kategori" class="form-select">
-            <option value="">Filter Kategori</option>
-            {% for k in kategori_list %}
-                <option value="{{ k.id }}" {% if k.id == request.GET.kategori|default_if_none:'' %}selected{% endif %}>
-                    {{ k.nama_kategori }}
-                </option>
-            {% endfor %}
-        </select>
+        <input type="text" name="kategori" id="kategori" class="form-control" 
+               value="{{ request.GET.kategori|default_if_none:'' }}" placeholder="Filter Kategori">
     </div>
     <div class="col-md-3">
         <label for="status" class="form-label">Status</label>
-        <select name="status" id="status" class="form-select">
-            <option value="">Filter Status</option>
-            {% for s in status_list %}
-                <option value="{{ s.id }}" {% if s.id == request.GET.status|default_if_none:'' %}selected{% endif %}>
-                    {{ s.nama_status }}
-                </option>
-            {% endfor %}
-        </select>
+        <input type="text" name="status" id="status" class="form-control" 
+               value="{{ request.GET.status|default_if_none:'' }}" placeholder="Filter Status">
     </div>
     <div class="col-md-3 align-self-end">
         <button type="submit" class="btn btn-primary">Filter</button>
